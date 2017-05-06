@@ -1,0 +1,5 @@
+apply plugin: ApacheIgniteDependencyPlugin
+
+dependencies {
+    compile("org.springframework.data:spring-data-mongodb:$mongodbSpringDataVersion")
+}

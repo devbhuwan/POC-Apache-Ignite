@@ -1,0 +1,42 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.apache.ignite.configuration.IgniteConfiguration">
+        <property name="cacheStoreFactory">
+            <bean class="org.apache.ignite.cache.store.jdbc.CacheJdbcPojoStoreFactory">
+                <property name="dataSourceBean" value="dsMySQL"/>
+                <property name="dialect">
+                    <bean class="org.apache.ignite.cache.store.jdbc.dialect.MySQLDialect"/>
+                </property>
+                <property name="types">
+                    <list>
+                        <bean class="org.apache.ignite.cache.store.jdbc.JdbcType">
+                            <property name="cacheName" value="ChequeCache"/>
+                            <property name="keyType" value="java.lang.Integer"/>
+                            <property name="valueType"
+                                      value="io.github.devbhuwan.poc.apache.ignite.sqlgrid.using.nativeapi.model.Cheque"/>
+                            <property name="databaseSchema" value="apache_ignite_db"/>
+                            <property name="databaseTable" value="cheque"/>
+
+                            <property name="keyFields">
+                                <list>
+                                    s
+                                </list>
+                            </property>
+
+                            <property name="valueFields">
+                                <list>
+                                    <value>chequeType</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>

@@ -1,4 +1,5 @@
 rootProject.name = 'POC-Apache-Ignite'
 include 'sql-grid-using-jdbc'
 include 'ignite-using-native-api-for-sql'
+include 'ignite-mongodb-pesistance-store'
 

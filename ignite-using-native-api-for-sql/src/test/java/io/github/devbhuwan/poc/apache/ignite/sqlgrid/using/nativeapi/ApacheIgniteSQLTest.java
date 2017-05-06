@@ -1,5 +1,6 @@
 package io.github.devbhuwan.poc.apache.ignite.sqlgrid.using.nativeapi;
 
+import io.github.devbhuwan.poc.apache.ignite.sqlgrid.using.nativeapi.model.Payment;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.ignite.Ignite;
