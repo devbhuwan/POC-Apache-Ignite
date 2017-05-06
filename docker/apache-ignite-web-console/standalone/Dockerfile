@@ -67,7 +67,7 @@ RUN cd /opt/web-console/backend && npm install --only=production --no-optional
 # Returns to base path.
 WORKDIR /opt/web-console
 
-# Copy nginx config.
+# Copy nginx cache.
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./nginx/web-console.conf /etc/nginx/web-console.conf
 
