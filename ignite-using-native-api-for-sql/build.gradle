@@ -1,0 +1,5 @@
+dependencies {
+    compile("org.apache.ignite:ignite-core:$igniteVersion")
+    compile("org.apache.ignite:ignite-spring:$igniteVersion")
+    compile("org.apache.ignite:ignite-indexing:$igniteVersion")
+}
