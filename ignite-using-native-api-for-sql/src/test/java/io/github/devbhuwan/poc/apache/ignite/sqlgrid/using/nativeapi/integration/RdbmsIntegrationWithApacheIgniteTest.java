@@ -19,4 +19,5 @@ public class RdbmsIntegrationWithApacheIgniteTest {
         testProperties.load(new FileInputStream("src/test/resources/connection.properties"));
     }
 
+
 }

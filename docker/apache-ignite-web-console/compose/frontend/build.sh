@@ -15,7 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 export IGNITE_HOME=/home/bhuwan/devb/github/others/ignite
 if [ -z "$IGNITE_HOME" ]; then
     echo "Ignite source folder is not found or IGNITE_HOME environment variable is not valid."
@@ -25,36 +24,36 @@ fi
 
 WORK_DIR=`cd "$(dirname "$0")"; pwd`
 
-BUILD_DIR="$WORK_DIR/build"
+SOURCE_DIR=$WORK_DIR/src
+BUILD_DIR=$WORK_DIR/build
 
-IGNITE_WEB_CONSOLE_DIR="$IGNITE_HOME/modules/web-console"
-DOCKER_IMAGE_NAME="apacheignite/web-console-standalone"
+DOCKER_BUILD_CONTAINER=web-console-frontend-builder
+DOCKER_BUILD_IMAGE_NAME=apacheignite/$DOCKER_BUILD_CONTAINER
+DOCKER_IMAGE_NAME=apacheignite/web-console-frontend
 
 echo "Receiving version..."
-VERSION=2.1.0
+VERSION=`cd $IGNITE_HOME && mvn org.apache.maven.plugins:maven-help-plugin:evaluate -Dexpression=project.version| grep -Ev '(^\[|Download\w+:)'`
 RELEASE_VERSION=${VERSION%-SNAPSHOT}
 
 echo "Building $DOCKER_IMAGE_NAME:$RELEASE_VERSION"
-echo "Step 1. Prepare build temp paths."
+echo "Step 1. Build frontend SPA"
 cd $WORK_DIR
+
+rm -Rf $SOURCE_DIR
 rm -Rf $BUILD_DIR
-docker rmi -f $DOCKER_IMAGE_NAME:$RELEASE_VERSION
-mkdir -p $BUILD_DIR/frontend $BUILD_DIR/backend
+mkdir -p $SOURCE_DIR
+mkdir -p $BUILD_DIR
 
-echo "Step 2. Build ignite web agent."
-cd $IGNITE_HOME
-mvn versions:set -DnewVersion=$RELEASE_VERSION -DgenerateBackupPoms=false -Pweb-console -DartifactId='*'
-mvn clean package -pl :ignite-web-agent -am -P web-console -DskipTests=true
-mvn versions:set -DnewVersion=$VERSION -DgenerateBackupPoms=false -Pweb-console -DartifactId='*'
+cp -r $IGNITE_HOME/modules/web-console/frontend/. $SOURCE_DIR
 
-echo "Step 3. Copy sources."
-cd $WORK_DIR
-cp -r $IGNITE_WEB_CONSOLE_DIR/frontend/. $BUILD_DIR/frontend
-cp -r $IGNITE_WEB_CONSOLE_DIR/backend/. $BUILD_DIR/backend
-cp $IGNITE_HOME/modules/web-console/web-agent/target/ignite-web-agent*.zip $BUILD_DIR/backend/agent_dists/.
+docker build -f=./DockerfileBuild -t $DOCKER_BUILD_IMAGE_NAME:latest .
+docker run -it -v $BUILD_DIR:/opt/web-console-frontend/build --name $DOCKER_BUILD_CONTAINER $DOCKER_BUILD_IMAGE_NAME
 
-echo "Step 4. Build docker image."
+echo "Step 2. Build NGINX container with SPA and proxy configuration"
 docker build -f=./Dockerfile -t $DOCKER_IMAGE_NAME:$RELEASE_VERSION -t $DOCKER_IMAGE_NAME:latest .
 
-echo "Step 5. Cleanup."
-rm -Rf $BUILD_DIR
+echo "Step 3. Cleanup"
+docker rm -f $DOCKER_BUILD_CONTAINER
+docker rmi -f $DOCKER_BUILD_IMAGE_NAME
+rm -r $SOURCE_DIR
+rm -r $BUILD_DIR
