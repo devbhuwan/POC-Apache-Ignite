@@ -17,6 +17,7 @@ public class Payment implements Serializable {
     private BigDecimal amount;
     private String purpose;
     private Date creationDate;
+    private String status;
 
     public static PaymentBuilder builder() {
         return new PaymentBuilder();
@@ -47,6 +48,11 @@ public class Payment implements Serializable {
 
         public PaymentBuilder creationDate(Date creationDate) {
             payment.creationDate = creationDate;
+            return this;
+        }
+
+        public PaymentBuilder status(String status) {
+            payment.status = status;
             return this;
         }
     }
