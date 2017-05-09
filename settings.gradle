@@ -2,4 +2,13 @@ rootProject.name = 'POC-Apache-Ignite'
 include 'sql-grid-using-jdbc'
 include 'ignite-using-native-api-for-sql'
 include 'ignite-mongodb-pesistance-store'
+include 'phase1:phase1-app-domain'
+findProject(':phase1:phase1-app-domain')?.name = 'phase1-app-domain'
+include 'phase1:app1-bank-service'
+findProject(':phase1:app1-bank-service')?.name = 'app1-bank-service'
+include 'phase1:app2-corporate-service'
+findProject(':phase1:app2-corporate-service')?.name = 'app2-corporate-service'
+include 'phase1:phase1-ignite-node1'
+findProject(':phase1:phase1-ignite-node1')?.name = 'phase1-ignite-node1'
+
 

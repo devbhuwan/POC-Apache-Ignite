@@ -1,10 +1,13 @@
 apply plugin: ApacheIgniteDependencyPlugin
+
 apply plugin: "io.spring.dependency-management"
 apply plugin: 'org.springframework.boot'
 
 dependencies {
+    compile project(":phase1:phase1-app-domain")
+    compile("mysql:mysql-connector-java:$mysqlConnectorVersion")
+    compile("org.springframework.boot:spring-boot-starter-jdbc")
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.data:spring-data-mongodb")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
