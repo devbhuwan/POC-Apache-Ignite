@@ -9,29 +9,29 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean id="mysqlDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://172.17.0.1:13306/apache_ignite_db"/>
-        <property name="username" value="root"/>
-        <property name="password" value="passwd"/>
-    </bean>
-
     <bean abstract="true" id="ignite.cfg" class="org.apache.ignite.configuration.IgniteConfiguration">
 
         <property name="cacheConfiguration">
             <list>
                 <bean class="org.apache.ignite.configuration.CacheConfiguration">
-                    <property name="name" value="cache1"/>
+                    <property name="name" value="paymentCache"/>
                     <property name="readThrough" value="true"/>
                     <property name="writeThrough" value="true"/>
                     <property name="writeBehindEnabled" value="true"/>
+                    <property name="atomicityMode" value="TRANSACTIONAL"/>
                     <property name="cacheStoreFactory">
-                        <bean class="org.apache.ignite.cache.store.jdbc.CacheJdbcPojoStoreFactory">
-                            <!-- Datasource configuration bean which is responsible for Cassandra connection details -->
-                            <property name="dataSourceBean" value="mysqlDataSource"/>
+                        <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+                            <property name="targetClass" value="javax.cache.configuration.FactoryBuilder"/>
+                            <property name="targetMethod" value="factoryOf"/>
+                            <property name="arguments">
+                                <list>
+                                    <value type="java.lang.Class">
+                                        io.github.devbhuwan.phase1.app.domain.ignite.PaymentStore
+                                    </value>
+                                </list>
+                            </property>
                         </bean>
                     </property>
-
                 </bean>
             </list>
         </property>

@@ -5,8 +5,6 @@ apply plugin: 'org.springframework.boot'
 
 dependencies {
     compile project(":phase1:phase1-app-domain")
-    compile("mysql:mysql-connector-java:$mysqlConnectorVersion")
-    compile("org.springframework.boot:spring-boot-starter-jdbc")
     compile("org.springframework.boot:spring-boot-starter-web")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

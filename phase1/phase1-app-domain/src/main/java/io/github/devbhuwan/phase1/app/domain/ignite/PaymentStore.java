@@ -6,6 +6,7 @@ import org.apache.ignite.cache.store.CacheStoreAdapter;
 import org.apache.ignite.lifecycle.LifecycleAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.cache.Cache;
@@ -21,7 +22,8 @@ import java.util.Map;
 public class PaymentStore extends CacheStoreAdapter<Long, Payment> implements LifecycleAware {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentStore.class);
-
+    public static final String PAYMENT_CACHE = "paymentCache";
+    @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
@@ -57,6 +59,8 @@ public class PaymentStore extends CacheStoreAdapter<Long, Payment> implements Li
     @Override
     public void start() throws IgniteException {
         LOGGER.info(">LifeAware#start()");
+        if(jdbcTemplate == null)
+            LOGGER.info(">Dependency is null");
     }
 
     @Override

@@ -10,7 +10,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static io.github.devbhuwan.phase1.app2.ignite.IgniteClientCfg.PAYMENT_CACHE;
+import static io.github.devbhuwan.phase1.app.domain.ignite.PaymentStore.PAYMENT_CACHE;
+
 
 /**
  * @author Bhuwan Upadhyay
@@ -21,7 +22,6 @@ public class PaymentController {
 
     @Autowired
     private Ignite ignite;
-
     private AtomicLong atomicLong = new AtomicLong();
 
     @PostMapping("/payment/add")
