@@ -9,6 +9,17 @@
         http://www.springframework.org/schema/util
         http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <bean id="mysqlDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://172.17.0.1:13306/apache_ignite_db"/>
+        <property name="username" value="root"/>
+        <property name="password" value="passwd"/>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="mysqlDataSource"/>
+    </bean>
+
     <bean abstract="true" id="ignite.cfg" class="org.apache.ignite.configuration.IgniteConfiguration">
 
         <property name="cacheConfiguration">
@@ -20,21 +31,17 @@
                     <property name="writeBehindEnabled" value="true"/>
                     <property name="atomicityMode" value="TRANSACTIONAL"/>
                     <property name="cacheStoreFactory">
-                        <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-                            <property name="targetClass" value="javax.cache.configuration.FactoryBuilder"/>
-                            <property name="targetMethod" value="factoryOf"/>
-                            <property name="arguments">
-                                <list>
-                                    <value type="java.lang.Class">
-                                        io.github.devbhuwan.phase1.app.domain.ignite.PaymentStore
-                                    </value>
-                                </list>
-                            </property>
+                        <bean class="javax.cache.configuration.FactoryBuilder" factory-method="factoryOf">
+                            <constructor-arg value="io.github.devbhuwan.phase1.app.domain.ignite.PaymentStore"/>
                         </bean>
                     </property>
                 </bean>
             </list>
         </property>
+
+        <!--
+
+        -->
 
         <!-- Set to true to enable distributed class loading for examples, default is false. -->
         <!--<property name="peerClassLoadingEnabled" value="true"/>-->

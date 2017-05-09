@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * @author Bhuwan Upadhyay
@@ -16,7 +16,7 @@ public class Payment implements Serializable {
     private Long id;
     private BigDecimal amount;
     private String purpose;
-    private LocalDate creationDate;
+    private Date creationDate;
 
     public static PaymentBuilder builder() {
         return new PaymentBuilder();
@@ -45,7 +45,7 @@ public class Payment implements Serializable {
             return this;
         }
 
-        public PaymentBuilder creationDate(LocalDate creationDate) {
+        public PaymentBuilder creationDate(Date creationDate) {
             payment.creationDate = creationDate;
             return this;
         }

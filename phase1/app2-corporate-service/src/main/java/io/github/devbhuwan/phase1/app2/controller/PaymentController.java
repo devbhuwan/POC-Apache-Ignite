@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static io.github.devbhuwan.phase1.app.domain.ignite.PaymentStore.PAYMENT_CACHE;
@@ -32,7 +32,7 @@ public class PaymentController {
         paymentIgniteCache.put(key,
                 Payment.builder().id(key).purpose("Transfer-" + key)
                         .amount(BigDecimal.valueOf(key))
-                        .creationDate(LocalDate.now())
+                        .creationDate(new Date())
                         .build());
         return "Created";
     }

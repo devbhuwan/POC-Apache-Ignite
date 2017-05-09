@@ -4,9 +4,9 @@ import io.github.devbhuwan.phase1.app.domain.Payment;
 import org.apache.ignite.IgniteException;
 import org.apache.ignite.cache.store.CacheStoreAdapter;
 import org.apache.ignite.lifecycle.LifecycleAware;
+import org.apache.ignite.resources.SpringResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.cache.Cache;
@@ -21,10 +21,15 @@ import java.util.Map;
  */
 public class PaymentStore extends CacheStoreAdapter<Long, Payment> implements LifecycleAware {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentStore.class);
     public static final String PAYMENT_CACHE = "paymentCache";
-    @Autowired
+    private static final Logger LOGGER = LoggerFactory.getLogger(PaymentStore.class);
+
+    @SpringResource(resourceName = "jdbcTemplate")
     private NamedParameterJdbcTemplate jdbcTemplate;
+
+    public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public Payment load(Long key) throws CacheLoaderException {
@@ -34,7 +39,7 @@ public class PaymentStore extends CacheStoreAdapter<Long, Payment> implements Li
                 .id(rs.getLong("ID"))
                 .amount(rs.getBigDecimal("AMOUNT"))
                 .purpose(rs.getString("PURPOSE"))
-                .creationDate(rs.getDate("CREATIONDATE").toLocalDate())
+                .creationDate(rs.getDate("CREATIONDATE"))
                 .build());
     }
 
@@ -59,7 +64,7 @@ public class PaymentStore extends CacheStoreAdapter<Long, Payment> implements Li
     @Override
     public void start() throws IgniteException {
         LOGGER.info(">LifeAware#start()");
-        if(jdbcTemplate == null)
+        if (jdbcTemplate == null)
             LOGGER.info(">Dependency is null");
     }
 
