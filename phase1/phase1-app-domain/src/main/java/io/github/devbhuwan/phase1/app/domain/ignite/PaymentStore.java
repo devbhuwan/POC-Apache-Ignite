@@ -27,20 +27,22 @@ public class PaymentStore extends CacheStoreAdapter<Long, Payment> implements Li
     @SpringResource(resourceName = "jdbcTemplate")
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
     @Override
     public Payment load(Long key) throws CacheLoaderException {
         Map<String, Object> params = new HashMap<>();
         params.put("id", key);
-        return jdbcTemplate.queryForObject("SELECT * FROM Payment WHERE id = ?", params, (rs, rowNum) -> Payment.builder()
-                .id(rs.getLong("ID"))
-                .amount(rs.getBigDecimal("AMOUNT"))
-                .purpose(rs.getString("PURPOSE"))
-                .creationDate(rs.getDate("CREATIONDATE"))
-                .build());
+        return jdbcTemplate.query("SELECT * FROM PAYMENT WHERE ID = :id", params, rs -> {
+            if (rs.next()) {
+                return Payment.builder()
+                        .id(rs.getLong("ID"))
+                        .amount(rs.getBigDecimal("AMOUNT"))
+                        .purpose(rs.getString("PURPOSE"))
+                        .creationDate(rs.getDate("CREATIONDATE"))
+                        .status(rs.getString("STATUS"))
+                        .build();
+            }
+            return null;
+        });
     }
 
     @Override
@@ -51,14 +53,18 @@ public class PaymentStore extends CacheStoreAdapter<Long, Payment> implements Li
         parameterMap.put("amount", payment.getAmount());
         parameterMap.put("purpose", payment.getPurpose());
         parameterMap.put("creationDate", payment.getCreationDate());
-        jdbcTemplate.update("INSERT INTO PAYMENT (ID, AMOUNT, PURPOSE, CREATIONDATE) VALUES (:id, :amount, :purpose, :creationDate)", parameterMap);
+        parameterMap.put("status", payment.getStatus());
+        if (load(entry.getKey()) == null)
+            jdbcTemplate.update("INSERT INTO PAYMENT (ID, AMOUNT, PURPOSE, CREATIONDATE, STATUS) VALUES (:id, :amount, :purpose, :creationDate, :status)", parameterMap);
+        else
+            jdbcTemplate.update("UPDATE PAYMENT SET AMOUNT = :amount, PURPOSE = :purpose, CREATIONDATE = :creationDate, STATUS = :status WHERE ID = :id", parameterMap);
     }
 
     @Override
     public void delete(Object key) throws CacheWriterException {
         Map<String, Object> params = new HashMap<>();
-        params.put("ID", key);
-        jdbcTemplate.update("DELETE FROM PAYMENT WHERE ID=?", params);
+        params.put("id", key);
+        jdbcTemplate.update("DELETE FROM PAYMENT WHERE ID=:id", params);
     }
 
     @Override
