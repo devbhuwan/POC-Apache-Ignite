@@ -24,7 +24,6 @@ public class PaymentStore extends CacheStoreAdapter<Long, Payment> implements Li
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-
     @Override
     public Payment load(Long key) throws CacheLoaderException {
         Map<String, Object> params = new HashMap<>();

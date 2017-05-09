@@ -4,14 +4,13 @@ import io.github.devbhuwan.phase1.app.domain.Payment;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
 
-import static io.github.devbhuwan.phase1.app2.ignite.IgniteCfg.PAYMENT_CACHE;
+import static io.github.devbhuwan.phase1.app2.ignite.IgniteClientCfg.PAYMENT_CACHE;
 
 /**
  * @author Bhuwan Upadhyay
@@ -23,16 +22,34 @@ public class PaymentController {
     @Autowired
     private Ignite ignite;
 
-    @GetMapping("payment/add")
+    private AtomicLong atomicLong = new AtomicLong();
+
+    @PostMapping("/payment/add")
+    @ResponseBody
     public String add() {
         IgniteCache<Long, Payment> paymentIgniteCache = ignite.getOrCreateCache(PAYMENT_CACHE);
-        long key = new Random().nextLong();
+        long key = atomicLong.incrementAndGet();
         paymentIgniteCache.put(key,
                 Payment.builder().id(key).purpose("Transfer-" + key)
                         .amount(BigDecimal.valueOf(key))
                         .creationDate(LocalDate.now())
                         .build());
-        return "Ok";
+        return "Created";
+    }
+
+    @GetMapping("/payment/{id}")
+    @ResponseBody
+    public Payment add(@PathVariable("id") Long id) {
+        IgniteCache<Long, Payment> paymentIgniteCache = ignite.getOrCreateCache(PAYMENT_CACHE);
+        return paymentIgniteCache.get(id);
+    }
+
+    @DeleteMapping("/payment/{id}")
+    @ResponseBody
+    public String delete(@PathVariable("id") Long id) {
+        IgniteCache<Long, Payment> paymentIgniteCache = ignite.getOrCreateCache(PAYMENT_CACHE);
+        paymentIgniteCache.remove(id);
+        return "Deleted";
     }
 
 }

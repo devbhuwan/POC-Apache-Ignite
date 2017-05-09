@@ -16,7 +16,7 @@ import javax.cache.configuration.FactoryBuilder;
  * @date 2017/05/07
  */
 @Configuration
-public class IgniteCfg {
+public class IgniteClientCfg {
 
     public static final String PAYMENT_CACHE = "paymentCache";
 
