@@ -50,7 +50,7 @@ subprojects {
     dependencies {
         compile("org.projectlombok:lombok:$lombokVersion")
         compile("ch.qos.logback:logback-classic:$logbackVersion")
-        compile("com.google.guava:guava:$guavaVersion")
+        //compile("com.google.guava:guava:$guavaVersion")
         compile("org.apache.commons:commons-lang3:$commonLang3Version")
 
         testCompile("junit:junit:$junitVersion")

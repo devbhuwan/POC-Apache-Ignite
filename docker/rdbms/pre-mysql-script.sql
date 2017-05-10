@@ -1,1 +1,0 @@
-CREATE DATABASE IF NOT EXISTS apache_ignite_db;

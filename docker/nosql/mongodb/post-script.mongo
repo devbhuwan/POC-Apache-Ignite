@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#https://docs.mongodb.com/manual/reference/built-in-roles/
+use admin;
+db.createUser(
+  {
+    user: "admin",
+    pwd: "password",
+    roles: [ { role: "root", db: "admin" } ]
+  }
+);
+
+use admin
+db.createUser(
+    { user: "mongoadmin" , pwd: "mongoadmin",
+        roles: ["userAdminAnyDatabase", "dbAdminAnyDatabase", "readWriteAnyDatabase"]
+    }
+);
+
+use admin
+db.createUser(
+  {
+    user: "ignite",
+    pwd: "ignite",
+    roles: [ { role: "dbOwner", db: "ignite_mongo_db" } ]
+  }
+);
+exit;

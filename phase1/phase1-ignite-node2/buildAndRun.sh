@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 export X_RUN_MODE=$1
-export X_JAR="./build/libs/poc-apache-ignite-ignite-mongodb-pesistance-store-1.0-SNAPSHOT.jar"
+export X_JAR="./build/libs/poc-apache-ignite-phase1-ignite-node2-1.0-SNAPSHOT.jar"
 export X_DEBUG_PARAM="-Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n"
 
 gradle clean build

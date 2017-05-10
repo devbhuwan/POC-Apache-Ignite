@@ -13,6 +13,7 @@ class ApacheIgniteDependencyPlugin implements Plugin<Project> {
         project.dependencies {
             compile "org.apache.ignite:ignite-core:${project.igniteVersion}"
             compile "org.apache.ignite:ignite-indexing:${project.igniteVersion}"
+            compile "org.apache.ignite:ignite-spring:${project.igniteVersion}"
         }
 
     }
