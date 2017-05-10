@@ -40,7 +40,9 @@ docker run --name ignite-cassandra -d  -p 9042:9042 cassandra:latest
 ./phase1/app1-corporate-service/buildAndRun.sh
 
 ```
------------------------TESTING------------------------------------------------------------
+-------------------------------
+TESTING
+-------------------------------
 
 ### App1 - Corporate Service
  
