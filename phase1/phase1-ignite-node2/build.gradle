@@ -1,0 +1,11 @@
+apply plugin: ApacheIgniteDependencyPlugin
+
+apply plugin: "io.spring.dependency-management"
+apply plugin: 'org.springframework.boot'
+
+dependencies{
+    compile project(":phase1:phase1-app-domain")
+    compile("org.springframework.boot:spring-boot-starter-data-cassandra")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}

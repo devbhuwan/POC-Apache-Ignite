@@ -15,4 +15,7 @@ findProject(':phase1:app2-bank-service')?.name = 'app2-bank-service'
 include 'phase1:phase1-ignite-node1'
 findProject(':phase1:phase1-ignite-node1')?.name = 'phase1-ignite-node1'
 
+include 'phase1:phase1-ignite-node2'
+findProject(':phase1:phase1-ignite-node2')?.name = 'phase1-ignite-node2'
+
 
