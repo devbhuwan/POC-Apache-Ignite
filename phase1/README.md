@@ -13,7 +13,7 @@
 docker pull mysql
 docker run --name ignite-mysql -e MYSQL_ROOT_PASSWORD=passwd -d  -p 13306:3306 mysql:latest
 ```
-- Open SQL editor like DBeaver CE and connect mysql using `host: localhost`, `username: root`, `password: passwd`
+- Open SQL editor like DBeaver CE and connect mysql using `host: localhost`, `username: root`, `password: passwd`, `port: 13306`
 - Copy text from `./docker/rdbms/mysql/pre-mysql-script.sql` in your sql editor then run script.    
 
 
