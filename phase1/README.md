@@ -1,4 +1,6 @@
-### PHASE-1
+### PHASE-1 : POC Application Architecture using Apache Ignite for READ and WRITE
+
+![alt text](phase-1-poc-archx.png "PHASE-1 : POC Application Architecture")
 
 ### App1 - Corporate Service
  
