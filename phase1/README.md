@@ -27,17 +27,22 @@ docker run --name ignite-cassandra -d  -p 9042:9042 cassandra:latest
 
 6. Now we need start applications and ignite nodes. :)
 ```bash
-# Ignite NODE-1 having MYSQL persistence Store
-./phase1/phase1-ignite-node1/buildAndRun.sh
-
+# Ignite NODE-1 having MYSQL persistence Store 
+# Open 4 terminal windows
+  cd phase1/phase1-ignite-node1/
+  buildAndRun.sh
+  
 # Ignite NODE-2 having Cassandra persistence Store
-./phase1/phase1-ignite-node2/buildAndRun.sh
+  cd phase1/phase1-ignite-node2/
+  buildAndRun.sh
 
 # APP-1 corporate Service - server port = 8888
-./phase1/app1-corporate-service/buildAndRun.sh
+ cd phase1/app1-corporate-service/
+ buildAndRun.sh
 
 # APP-2 bank Service - server port = 8889
-./phase1/app1-corporate-service/buildAndRun.sh
+ cd phase1/app1-corporate-service/
+ buildAndRun.sh
 
 ```
 -------------------------------
