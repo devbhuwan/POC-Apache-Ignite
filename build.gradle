@@ -2,6 +2,7 @@ buildscript {
 
     repositories {
         mavenCentral()
+        mavenLocal()
         jcenter()
     }
 
@@ -19,6 +20,7 @@ allprojects {
 
     repositories {
         mavenCentral()
+        mavenLocal()
         jcenter()
         mavenRepoUrl.split(',').each { repoUrl -> maven { url repoUrl } }
     }
@@ -31,7 +33,6 @@ ext {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
-    //apply plugin: "io.spring.dependency-management"
 
     sourceCompatibility = 1.8
 
@@ -50,7 +51,6 @@ subprojects {
     dependencies {
         compile("org.projectlombok:lombok:$lombokVersion")
         compile("ch.qos.logback:logback-classic:$logbackVersion")
-        //compile("com.google.guava:guava:$guavaVersion")
         compile("org.apache.commons:commons-lang3:$commonLang3Version")
 
         testCompile("junit:junit:$junitVersion")
@@ -58,10 +58,5 @@ subprojects {
         compile("org.codehaus.groovy:groovy-all:$groovyAllVersion")
         testCompile("org.spockframework:spock-core:$spockVersion")
     }
-
-//    dependencyManagement {
-//        imports {
-//            mavenBom "org.springframework.boot:spring-boot-starter-parent:$springBootVersion"
-//        }
-//    }
+    
 }

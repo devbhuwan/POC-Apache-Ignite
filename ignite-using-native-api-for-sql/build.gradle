@@ -1,6 +1,0 @@
-apply plugin: ApacheIgniteDependencyPlugin
-
-dependencies {
-    compile("org.apache.ignite:ignite-spring:$igniteVersion")
-    compile("mysql:mysql-connector-java:$mysqlConnectorVersion")
-}
