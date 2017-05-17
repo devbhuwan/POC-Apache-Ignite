@@ -1,5 +1,3 @@
 # POC
 
-Resources:
-- https://youtu.be/tkc40LeoUTE
-
+Phase-1: https://git.io/v9p8v
